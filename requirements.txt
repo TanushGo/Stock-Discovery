@@ -1,0 +1,13 @@
+flask
+pyjwt[crypto]
+SQLAlchemy
+vaderSentiment
+flask-sqlalchemy 
+Werkzeug 
+flask-migrate 
+sqlalchemy-serializer
+flask-restful 
+flask-cors 
+faker 
+flask-bcrypt
+python-dotenv
