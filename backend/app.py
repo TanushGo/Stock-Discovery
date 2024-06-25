@@ -1,8 +1,7 @@
 # Remote library imports
-from flask import request, make_response, session, jsonify
+from flask import request, make_response, jsonify
 from flask_restful import Resource
 import jwt
-from functools import wraps
 import uuid # for public id
 from datetime import datetime, timedelta, timezone
 # Local imports
@@ -53,7 +52,7 @@ class CheckLogin(Resource):
                 .filter_by(public_id = data['public_id'])\
                 .first()
                 # returns the current logged in users context to the routes
-            return make_response(user.to_dict(), 200)
+            return make_response("success", 200)
         except:
             return make_response(jsonify({
                 'message' : 'Token is invalid !!'
@@ -67,8 +66,8 @@ class Signup(Resource):
     
     def post(self):
         # checking for existing users
-        #print(request.form)
-        json = request.form
+        print(request.json)
+        json = request.json
        
         user = User.query\
             .filter_by(username = json['username'])\
@@ -85,10 +84,10 @@ class Signup(Resource):
             db.session.add(user)
             db.session.commit()
     
-            return make_response(f'{user.to_dict()} Successfully registered.', 201)
+            return make_response(jsonify('success', 201))
         else:
             # returns 202 if user already exists
-            return make_response('User already exists. Please Log in.', 202)
+            return make_response(jsonify('User already exists. Please Log in.', 202))
         
     
 api.add_resource(Signup, '/signup', endpoint='signup')
@@ -96,10 +95,10 @@ api.add_resource(Signup, '/signup', endpoint='signup')
 class Login(Resource):
 
     def post(self):
-        username = request.form['username']
-
+        username = request.json['username']
+        print(request.json)
         user = User.query.filter(User.username == username).first()
-        password = request.form['password']
+        password = request.json['password']
 
         if not user:
             response_body = {'error': 'User not found'}
@@ -112,22 +111,22 @@ class Login(Resource):
                 token = jwt.encode({
                 'public_id': user.public_id,
                 'exp' : datetime.now(tz=timezone.utc) + timedelta(minutes = 30)}, app.config['SECRET_KEY'])
-                response_body = jsonify({'token' : token})
+                response_body = {'token' : token}
                 status = 201
             else:
-                response_body = {'error': 'Invalid username or password'}
+                response_body = jsonify({'error': 'Invalid username or password'})
                 status = 401
-        return make_response(response_body, status)
+        return make_response(jsonify(response_body, status))
 
 api.add_resource(Login, '/login', endpoint='login')
 
-class Logout(Resource):
+# class Logout(Resource):
     
-    def delete(self):
-        session['user_id'] = None
-        return {}, 204
+#     def delete(self):
+#         session['user_id'] = None
+#         return {}, 204
     
-api.add_resource(Logout, '/logout', endpoint='logout')
+# api.add_resource(Logout, '/logout', endpoint='logout')
 
 
 if __name__ == '__main__':
