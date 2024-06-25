@@ -95,13 +95,14 @@ class Login(Resource):
 api.add_resource(Login, '/login', endpoint='login')
 
 class Search(Resource):
-    def get(self):
+    def post(self):
         ticker = request.json["key"]
-        url = f'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={ticker}&apikey={app.config['ALPHA_KEY']}'
+        url = f'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={ticker}&apikey={app.alpha_key}'
         try:
             r = requests.get(url)
             data = r.json()
-            make_response(jsonify(data, 201))
+            print(jsonify(data, 200))
+            return make_response(jsonify(data, 200))
         except:
             return make_response(jsonify({
                 'message' : 'Error in API'

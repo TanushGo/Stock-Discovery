@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './routes/home'
 import Login from './routes/login'
 import SignUp from './routes/signUp'
+import DetailView from './routes/company'
 import './App.css'
 import { useEffect, useState } from 'react'
 
@@ -38,10 +39,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
+          <Route path="/" element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
           />
+          <Route index={false} path="/company/:id" element={<DetailView />} />
           <Route path="/signin" element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

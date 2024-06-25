@@ -100,3 +100,10 @@
   border: 1px solid grey;
   padding-left: 8px;
 }
+
+.company-container {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+  flex-wrap: wrap;
+}
