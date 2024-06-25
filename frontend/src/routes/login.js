@@ -2,13 +2,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const SignUp = (props) => {
+const Login = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
-  const [name, setName] = useState('')
-  const [nameError, setNameError] = useState('')
 
   const navigate = useNavigate()
 
@@ -16,12 +14,7 @@ const SignUp = (props) => {
     // Set initial error values to empty
     setEmailError('')
     setPasswordError('')
-    setNameError('')
-    
-    if ('' === name) {
-        setNameError('Please enter your name')
-        return
-      }
+  
     // Check if the user has entered both fields correctly
     if ('' === email) {
       setEmailError('Please enter your email')
@@ -45,28 +38,31 @@ const SignUp = (props) => {
   
     // Authentication calls will be made here...
     // Check if email has an account associated with it
-    signUp()
+    logIn()
         
     
     }
-    // Sign up a user using email and password
-    const signUp = () => {
-        fetch('http://localhost:5555/signup', {
+  // Call the server API to check if the given email ID already exists
+    
+    // Log in a user using email and password
+    const logIn = () => {
+        fetch('http://localhost:5555/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, "username" : email, password }),
+        body: JSON.stringify({ "username" : email, "password" :password }),
         })
         .then((r) => r.json())
         .then((r) => {
             console.log(r)
-            if ("success" == r[0]) {
-            localStorage.setItem('user', JSON.stringify({ "username" : email, token: r.token }))
-            window.alert('Signed Up')
+            if (201 === r[1]) {
+            localStorage.setItem('user', JSON.stringify({ "username":email, token: r.token }))
+            props.setLoggedIn(true)
+            props.setEmail(email)
             navigate('/')
             } else {
-            window.alert('Account already exists')
+            window.alert('Wrong email or password')
             }
         })
     }
@@ -74,17 +70,7 @@ const SignUp = (props) => {
   return (
     <div className={'mainContainer'}>
       <div className={'titleContainer'}>
-        <div>Sign Up</div>
-      </div>
-      <br />
-      <div className={'inputContainer'}>
-        <input
-          value={name}
-          placeholder="Enter your name here"
-          onChange={(ev) => setName(ev.target.value)}
-          className={'inputBox'}
-        />
-        <label className="errorLabel">{nameError}</label>
+        <div>Sign In</div>
       </div>
       <br />
       <div className={'inputContainer'}>
@@ -108,10 +94,10 @@ const SignUp = (props) => {
       </div>
       <br />
       <div className={'inputContainer'}>
-        <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Sign Up'} />
+        <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Sign In'} />
       </div>
     </div>
   )
 }
 
-export default SignUp
+export default Login

@@ -4,36 +4,10 @@ from flask_restful import Resource
 import jwt
 import uuid # for public id
 from datetime import datetime, timedelta, timezone
+import requests
 # Local imports
 from config import app, db, api
 from models import *
-
-# # decorator for verifying the JWT
-# def token_required(f):
-#     @wraps(f)
-#     def decorated(*args, **kwargs):
-#         token = None
-#         # jwt is passed in the request header
-#         if 'x-access-token' in request.headers:
-#             token = request.headers['x-access-token']
-#         # return 401 if token is not passed
-#         if not token:
-#             return jsonify({'message' : 'Token is missing !!'}), 401
-  
-#         try:
-#             # decoding the payload to fetch the stored details
-#             data = jwt.decode(token, app.config['SECRET_KEY'])
-#             current_user = User.query\
-#                 .filter_by(public_id = data['public_id'])\
-#                 .first()
-#         except:
-#             return jsonify({
-#                 'message' : 'Token is invalid !!'
-#             }), 401
-#         # returns the current logged in users context to the routes
-#         return  f(current_user, *args, **kwargs)
-  
-#     return decorated
 
 
 class CheckLogin(Resource):
@@ -114,19 +88,27 @@ class Login(Resource):
                 response_body = {'token' : token}
                 status = 201
             else:
-                response_body = jsonify({'error': 'Invalid username or password'})
+                response_body = {'error': 'Invalid username or password'}
                 status = 401
         return make_response(jsonify(response_body, status))
 
 api.add_resource(Login, '/login', endpoint='login')
 
-# class Logout(Resource):
-    
-#     def delete(self):
-#         session['user_id'] = None
-#         return {}, 204
-    
-# api.add_resource(Logout, '/logout', endpoint='logout')
+class Search(Resource):
+    def get(self):
+        ticker = request.json["key"]
+        url = f'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={ticker}&apikey={app.config['ALPHA_KEY']}'
+        try:
+            r = requests.get(url)
+            data = r.json()
+            make_response(jsonify(data, 201))
+        except:
+            return make_response(jsonify({
+                'message' : 'Error in API'
+            }), 401)
+        
+
+api.add_resource(Search, '/search', endpoint='search')
 
 
 if __name__ == '__main__':

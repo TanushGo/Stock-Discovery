@@ -16,6 +16,7 @@ app.json.compact = False
 # generate a secret key by running the following script in terminal:
 # `python -c 'import os; print(os.urandom(16))'`
 app.secret_key = os.getenv('SECRET_KEY')
+app.alpha_key = os.getenv('ALPHA_KEY')
 
 # Instantiate db
 db = SQLAlchemy()
