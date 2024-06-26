@@ -8,7 +8,18 @@
     margin-bottom: 25px;
     width: 400px;
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .Card:hover {
     transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
+
+.name{
+    font-size: large;
+}
+
+.line{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}

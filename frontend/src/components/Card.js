@@ -12,11 +12,13 @@ const Card = (props) =>  {
   return (
       <div className="Card" onClick={onNavigate}>
          
-          <h2 className="name">{props.name}</h2>
-          <h2 className="type">{props.type}</h2>
-          <h2 className="region">{props.region}</h2>
-          <h2 className='symbol'>{props.id}</h2>
-          <h2 className='currency'>{props.currency}</h2>
+          <h1 className="name">{props.name}</h1>
+          <div className="line">
+          <h5 className="type">{props.type}</h5>
+          <h5 className="region">{props.region}</h5>
+          </div>
+          <h3 className='symbol'>{props.id}</h3>
+          <h5 className='currency'>{props.currency}</h5>
           
       </div>
   );
