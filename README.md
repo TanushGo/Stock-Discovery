@@ -57,4 +57,6 @@ Post Method where data is in json form and key is required which contains the co
 ## Frontend
 
 The front end is designed with React and uses HTML and CSS. The launch page has login and sign up after which the user can get access to the platform. Then after logging in the website has search bar for searching stock and heat map. The heat map is mading using a TradingView widget which reduces the need to use the Alpha Vantage Api as there are limited calls. 
+
+
 After the search option, the user can click on one of the stock results and will be lead to the page containing information about comapany and stock performance. It also has the sentiment analysis. This is created using some widgets from Tradeing View
