@@ -2,7 +2,7 @@
 
 Welcome, to stock discovery the latest platform to learn more about the most popular stocks, their performace and get news information. 
 
-![](https://github.com/TanushGo/Stock_Heatmap/assets/Github_Video.gif)
+![](https://github.com/TanushGo/Stock_Heatmap/blob/main/assets/Github_Video.gif)
 
 ## Start
 Set up virtual environment in python and run
