@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,Link} from 'react-router-dom'
 
 const Login = (props) => {
   const [email, setEmail] = useState('')
@@ -55,7 +55,7 @@ const Login = (props) => {
         })
         .then((r) => r.json())
         .then((r) => {
-            console.log(r)
+            // console.log(r)
             if (201 === r[1]) {
             localStorage.setItem('user', JSON.stringify({ "username":email, token: r.token }))
             props.setLoggedIn(true)
@@ -70,7 +70,7 @@ const Login = (props) => {
   return (
     <div>
        <header>
-        <a id="site-logo" href="#" >Stock Discovery</a>
+       <Link to={"/"}><a id="site-logo" href="#" >Stock Discovery</a></Link>
       </header>
     <div className={'mainContainer'}>
       <div className={'titleContainer'}>

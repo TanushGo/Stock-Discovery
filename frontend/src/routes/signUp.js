@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link} from 'react-router-dom'
 
 const SignUp = (props) => {
   const [email, setEmail] = useState('')
@@ -74,7 +74,7 @@ const SignUp = (props) => {
   return (
     <div>
        <header>
-        <a id="site-logo" href="#" >Stock Discovery</a>
+        <Link to={"/"}><a id="site-logo" href="/" >Stock Discovery</a></Link>
       </header>
     <div className={'mainContainer'}>
       <div className={'titleContainer'}>

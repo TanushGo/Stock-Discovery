@@ -123,6 +123,7 @@ class News(Resource):
             print(url)
             r = requests.get(url)
             data = r.json()
+            # print(data)
             if data["totalResults"] > 0:
                 analyzer = SentimentIntensityAnalyzer()
                 sentence_list = tokenize.sent_tokenize(data["articles"][0]["content"])

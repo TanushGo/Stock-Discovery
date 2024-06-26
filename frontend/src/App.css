@@ -104,6 +104,10 @@
 .company-container {
   display: flex;
   justify-content: space-evenly;
-  padding: 10px;
+  gap: 10px 10px;
   flex-wrap: wrap;
+}
+
+.inputButton{
+  font-size: 14px;
 }

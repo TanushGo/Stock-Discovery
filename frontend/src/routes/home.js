@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import TradingViewWidget from "../components/HeatMap"
 import Card from '../components/Card'
 
@@ -32,11 +32,11 @@ const Home = (props) => {
       })
       .then((r) => r.json())
       .then((r) => {
-          console.log(r)
+          // console.log(r)
           if (200 === r[1]) {
-          setResult(r[0]["bestMatches"])
+            setResult(r[0]["bestMatches"])
           } else {
-          window.alert('API issue')
+            window.alert('API issue')
           }
       })
   }
@@ -54,8 +54,8 @@ const Home = (props) => {
   return (
     <div>
       <header>
-        <a id="site-logo" href="#" >Stock Discovery</a>
-        {loggedIn ? <input className={'inputButton'} type="button"  onClick={onButtonClick} value={'Sign Out'} /> :<div />}
+        <Link to={"/"}><a id="site-logo" href="/" >Stock Discovery</a></Link>
+        {loggedIn ? <input className={'inputButton'} type="button"  onClick={onButtonClick} value={'Sign Out'} style={{"fontSize": "19px"}} /> :<div />}
       </header>
       {loggedIn ? <div />:<div>
       <div className="mainContainer"> 
@@ -94,7 +94,6 @@ const Home = (props) => {
            ) 
            : <div></div>}
            </div>
-          Your username is {email}
           </div> : <div />}
     </div>
   )
