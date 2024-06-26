@@ -1,10 +1,12 @@
 # Remote library imports
 from flask import request, make_response, jsonify
+from nltk import tokenize
 from flask_restful import Resource
 import jwt
 import uuid # for public id
 from datetime import datetime, timedelta, timezone
 import requests
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 # Local imports
 from config import app, db, api
 from models import *
@@ -97,11 +99,12 @@ api.add_resource(Login, '/login', endpoint='login')
 class Search(Resource):
     def post(self):
         ticker = request.json["key"]
+        
         url = f'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={ticker}&apikey={app.alpha_key}'
         try:
             r = requests.get(url)
             data = r.json()
-            print(jsonify(data, 200))
+            print(data)
             return make_response(jsonify(data, 200))
         except:
             return make_response(jsonify({
@@ -110,6 +113,38 @@ class Search(Resource):
         
 
 api.add_resource(Search, '/search', endpoint='search')
+
+class News(Resource):
+    def post(self):
+        ticker = request.json["key"]
+        print(ticker)
+        url = f'https://newsapi.org/v2/everything?q="{ticker}"&sortBy=popularity&apiKey={app.news_key}'
+        try:
+            print(url)
+            r = requests.get(url)
+            data = r.json()
+            if data["totalResults"] > 0:
+                analyzer = SentimentIntensityAnalyzer()
+                sentence_list = tokenize.sent_tokenize(data["articles"][0]["content"])
+                paragraphSentiments = 0.0
+                for sentence in sentence_list:
+                    vs = analyzer.polarity_scores(sentence)
+                    print("{:-<69} {}".format(sentence, str(vs["compound"])))
+                    paragraphSentiments += vs["compound"]
+                print("AVERAGE SENTIMENT FOR PARAGRAPH: \t" + str(round(paragraphSentiments / len(sentence_list), 4)))
+
+                return make_response(jsonify({"data" :round(paragraphSentiments / len(sentence_list), 4)}, 200))
+            else:
+                return make_response(jsonify({
+                    'message' : 'No articles'
+                }, 201))
+        except:
+            return make_response(jsonify({
+                'message' : 'Error in API'
+            }, 401))
+        
+
+api.add_resource(News, '/news', endpoint='news')
 
 
 if __name__ == '__main__':

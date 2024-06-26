@@ -1,13 +1,16 @@
 import React from 'react'
 import './Card.css'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 
 const Card = (props) =>  {
-
+  const navigate = useNavigate()
+  const onNavigate = () => {
+    props.setName(props.name)
+    navigate('/company/'+ props.id)
+  }
   return (
-    <Link to={'/company/'+ props.id}>
-      <div className="Card">
+      <div className="Card" onClick={onNavigate}>
          
           <h2 className="name">{props.name}</h2>
           <h2 className="type">{props.type}</h2>
@@ -16,7 +19,6 @@ const Card = (props) =>  {
           <h2 className='currency'>{props.currency}</h2>
           
       </div>
-      </Link>
   );
 };
 

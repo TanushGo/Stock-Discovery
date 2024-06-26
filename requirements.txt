@@ -1,4 +1,5 @@
 flask
+nltk
 pyjwt[crypto]
 SQLAlchemy
 vaderSentiment

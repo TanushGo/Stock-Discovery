@@ -17,6 +17,7 @@ app.json.compact = False
 # `python -c 'import os; print(os.urandom(16))'`
 app.secret_key = os.getenv('SECRET_KEY')
 app.alpha_key = os.getenv('ALPHA_KEY')
+app.news_key = os.getenv("NEWS_KEY")
 
 # Instantiate db
 db = SQLAlchemy()

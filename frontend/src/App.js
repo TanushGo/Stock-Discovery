@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 function App() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
 
   useEffect(() => {
     // Fetch the user email and token from local storage
@@ -39,9 +40,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
+          <Route path="/" element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setName={setName} />}
           />
-          <Route index={false} path="/company/:id" element={<DetailView />} />
+          <Route index={false} path="/company/:id" element={<DetailView name ={name} setLoggedIn={setLoggedIn} />} />
           <Route path="/signin" element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

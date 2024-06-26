@@ -72,6 +72,10 @@ const SignUp = (props) => {
     }
 
   return (
+    <div>
+       <header>
+        <a id="site-logo" href="#" >Stock Discovery</a>
+      </header>
     <div className={'mainContainer'}>
       <div className={'titleContainer'}>
         <div>Sign Up</div>
@@ -110,6 +114,7 @@ const SignUp = (props) => {
       <div className={'inputContainer'}>
         <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Sign Up'} />
       </div>
+    </div>
     </div>
   )
 }

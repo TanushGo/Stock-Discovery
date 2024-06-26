@@ -8,7 +8,7 @@ flask db init
 flask db migrate -m 'initial migration'
 flask db upgrade
 
-
+nltk.download('punkt')
 python app.py
 
 Create individual components for each of the search results

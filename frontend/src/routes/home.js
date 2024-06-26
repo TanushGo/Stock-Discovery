@@ -4,7 +4,7 @@ import TradingViewWidget from "../components/HeatMap"
 import Card from '../components/Card'
 
 const Home = (props) => {
-  const { loggedIn, email } = props
+  const { loggedIn, email} = props
   const [stock, setStock] = useState('')
   const [result, setResult] = useState([])
   const navigate = useNavigate()
@@ -53,33 +53,29 @@ const Home = (props) => {
 
   return (
     <div>
-      <div className="mainContainer">
-      <div className={'titleContainer'}>
-      {!loggedIn ? <div>
-        <div>Welcome!</div>
-      </div> 
-      :<div>Stock Discovery</div>}
-      </div>
-      <div>This is the home page.</div>
-      <div className={'buttonContainer'}>
+      <header>
+        <a id="site-logo" href="#" >Stock Discovery</a>
+        {loggedIn ? <input className={'inputButton'} type="button"  onClick={onButtonClick} value={'Sign Out'} /> :<div />}
+      </header>
+      {loggedIn ? <div />:<div>
+      <div className="mainContainer"> 
+        <h1>Welcome to Stock Discovery</h1> 
+        <p>Please login to get started!</p>
+      <div className={'buttonContainer'}> 
         <input
           className={'inputButton'}
           type="button"
           onClick={onButtonClick}
-          value={loggedIn ? 'Sign Out' : 'Sign In'}
-        />
-        
-        {loggedIn ? <div />: 
-      <div>
+          value={'Sign In'}
+        /> 
         <input
           className={'inputButton'}
           type="button"
           onClick={onButtonUpClick}
           value={"Sign Up"}
         />  
-      </div> }
-      </div>
-    </div>
+      </div> </div> </div>}
+      
     {loggedIn ? <div style={mystyle}>
           <input
             type="text"
@@ -94,8 +90,7 @@ const Home = (props) => {
           <div className={'company-container'}> 
           {result && result.length> 0 ?
             result.map((i,index) => {              
-              console.log(i)
-              return <Card id={i["1. symbol"]} name={i["2. name"]} type={i["3. type"]} region={i['4. region']} key={i["1. symbol"]} currency = {i['8. currency']}/>}
+              return <Card id={i["1. symbol"]} name={i["2. name"]} type={i["3. type"]} region={i['4. region']} key={i["1. symbol"]} currency = {i['8. currency']} setName={props.setName}/>}
            ) 
            : <div></div>}
            </div>
